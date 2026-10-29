@@ -1,0 +1,21 @@
+# macOS junk files
+.DS_Store
+
+# Java / Maven build output
+target/
+*.class
+
+# IntelliJ settings
+.idea/
+*.iml
+
+# Local SQLite database file (recreated when the server starts)
+*.db
+
+# Secrets (never upload)
+.env
+
+# Xcode user and build files
+xcuserdata/
+DerivedData/
+build/
