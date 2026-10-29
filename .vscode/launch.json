@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Bankey Backend",
+            "request": "launch",
+            "mainClass": "com.bankey.backend.BackendApplication",
+            "projectName": "backend",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
