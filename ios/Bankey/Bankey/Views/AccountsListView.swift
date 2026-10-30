@@ -14,7 +14,9 @@ struct AccountsListView: View {
             }
             .navigationTitle("My Accounts")
             .navigationDestination(for: Account.self) { account in
-                Text(account.accountNumber) // Step 48: the details screen goes here
+                AccountDetailView(account: account, auth: auth) { updated in
+                    viewModel.replace(updated)
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

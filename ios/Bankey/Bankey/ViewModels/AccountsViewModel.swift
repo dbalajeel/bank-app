@@ -22,4 +22,11 @@ final class AccountsViewModel {
             errorMessage = error.localizedDescription
         }
     }
+
+    // Put the updated account (new nickname) into the list.
+    func replace(_ updated: Account) {
+        if let index = accounts.firstIndex(where: { $0.id == updated.id }) {
+            accounts[index] = updated
+        }
+    }
 }
