@@ -7,9 +7,9 @@ The backend is a Spring Boot REST API with an SQLite database. Access is protect
 
 ```mermaid
 flowchart LR
-    A["📱 iOS app<br/>SwiftUI"] -- "HTTP + JSON<br/>Authorization: Bearer token" --> B["☕ Spring Boot API<br/>localhost:8080"]
-    B -- "JPA / Hibernate" --> C[("🗄️ SQLite<br/>bankey.db")]
-    A -. "stores token" .-> K["🔒 iOS Keychain"]
+    App["iOS app - SwiftUI"] -->|"HTTP + JSON with Bearer token"| API["Spring Boot API - port 8080"]
+    API -->|"JPA / Hibernate"| DB[("SQLite - bankey.db")]
+    App -.->|"stores token"| KC["iOS Keychain"]
 ```
 
 ```mermaid
