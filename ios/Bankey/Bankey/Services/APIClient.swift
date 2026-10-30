@@ -25,9 +25,14 @@ final class APIClient {
     static let shared = APIClient()
 
     // The ONE place with the server address.
-    // Simulator: localhost. Real iPhone: your Mac's Wi-Fi address, e.g. http://192.168.1.20:8080
+    #if targetEnvironment(simulator)
+    // The simulator runs on the Mac, so "localhost" is the Mac.
     private let baseURL = URL(string: "http://localhost:8080")!
-
+    #else
+    // A real iPhone finds the Mac by its network name (same Wi-Fi or hotspot).
+    private let baseURL = URL(string: "http://Dalals-MacBook-Air.local:8080")!
+    #endif
+    
     // POST /auth/login -> returns the token
     func login(customerNumber: Int, password: String) async throws -> String {
         let body = try JSONEncoder().encode(LoginRequest(customerNumber: customerNumber, password: password))
