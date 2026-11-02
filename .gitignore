@@ -1,21 +1,21 @@
 # macOS junk files
 .DS_Store
 
-# Java / Maven build output
+# Maven build output / compiled java files
 target/
 *.class
 
-# IntelliJ settings
+# IntelliJ settings / project files
 .idea/
 *.iml
 
 # Local SQLite database file (recreated when the server starts)
 *.db
 
-# Secrets (never upload)
+# Secrets 
 .env
 
-# Xcode user and build files
+# Xcode personal settings / where Xcode builds the app / build output
 xcuserdata/
 DerivedData/
 build/

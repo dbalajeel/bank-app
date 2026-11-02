@@ -1,10 +1,4 @@
-//
-//  BankeyApp.swift
-//  Bankey
-//
-//  Created by Dalal Alajeel Alaskar on 30/10/2026.
-//
-
+//generated 
 import SwiftUI
 
 @main

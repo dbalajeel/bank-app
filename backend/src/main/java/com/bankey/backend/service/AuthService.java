@@ -1,3 +1,4 @@
+//login brain
 package com.bankey.backend.service;
 
 import com.bankey.backend.dto.LoginRequest;
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
-
+//create one and give it to whoever nees it 
 @Service
 public class AuthService {
-
+// the 3 tools it needs:
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -28,9 +29,11 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) {
+        //i gave you the customer number. find the customer ID
         Optional<Customer> found = customerRepository.findById(request.customerNumber());
-
+        // if it is empty or password fit the hash 
         if (found.isEmpty() || !passwordEncoder.matches(request.password(), found.get().getPasswordHash())) {
+            //throw -> stop and report an errror (401)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid customer number or password");
         }
 

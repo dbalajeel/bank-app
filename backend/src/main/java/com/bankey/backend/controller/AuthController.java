@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//this class answers internet requests (JSON)
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -20,7 +21,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    // it gives back the token 
     public LoginResponse login(@Valid @RequestBody LoginRequest request) {
+        // pass the form to authservice and return whatever it answers 
         return authService.login(request);
     }
 }

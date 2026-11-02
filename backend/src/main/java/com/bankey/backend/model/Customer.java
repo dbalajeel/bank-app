@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.Check;
 
+
 @Entity
 @Table(name = "customers")
 @Check(constraints = "customer_number BETWEEN 100000000 AND 999999999")

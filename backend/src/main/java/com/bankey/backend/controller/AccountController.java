@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+// answers with json
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
@@ -23,18 +23,21 @@ public class AccountController {
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
-
+    // get accounts
     @GetMapping
+    //returns a list of cards (all accounts)
     public List<AccountResponse> getAccounts(@AuthenticationPrincipal Integer customerNumber) {
         return accountService.getAccounts(customerNumber);
     }
-
+    //take this value from the URL address (one account) account from URL number from token
     @GetMapping("/{accountNumber}")
     public AccountResponse getAccount(@PathVariable String accountNumber,
                                       @AuthenticationPrincipal Integer customerNumber) {
+                                        //check it is mine
         return accountService.getAccount(accountNumber, customerNumber);
     }
 
+    //change nickname 
     @PatchMapping("/{accountNumber}/nickname")
     public AccountResponse updateNickname(@PathVariable String accountNumber,
                                           @Valid @RequestBody NicknameRequest request,

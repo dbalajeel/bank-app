@@ -4,10 +4,15 @@ import com.bankey.backend.model.Account;
 import com.bankey.backend.model.Customer;
 import com.bankey.backend.repository.AccountRepository;
 import com.bankey.backend.repository.CustomerRepository;
+
+// run this command right after the server starts
 import org.springframework.boot.CommandLineRunner;
+
+// the password hasher 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+//Spring, please create this class automatically when the server starts.
 @Component
 public class DataSeeder implements CommandLineRunner {
 
