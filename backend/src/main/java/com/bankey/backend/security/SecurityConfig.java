@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,7 +23,7 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         // if i want to change the scrambler (hasher) i need to change only this line 
-        // it adds rando, "salt" 2 perople with same password still get different hashes 
+       //BCrypt adds random "salt", so 2 people with the same password still get different hashes
         return new BCryptPasswordEncoder();
     }
 
@@ -42,7 +43,7 @@ public class SecurityConfig {
                         // if someone calls accounts with no tokens reply "unauthorized"
                 .exceptionHandling(errors -> errors
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                        // spring build the checkpoints but none will know to rad our JWT tokens so we build our own
+                        // spring build the checkpoints but none will know to read our JWT tokens so we build our own
                         // add our tickets checker before spring's user/pass checkpoint 
                 .addFilterBefore(new JwtAuthFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
         return http.build();

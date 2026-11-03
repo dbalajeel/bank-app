@@ -31,13 +31,15 @@ public class AuthService {
     public LoginResponse login(LoginRequest request) {
         //i gave you the customer number. find the customer ID
         Optional<Customer> found = customerRepository.findById(request.customerNumber());
-        // if it is empty or password fit the hash 
+        // if no customer was found, OR the password does NOT match the hash -> 401
         if (found.isEmpty() || !passwordEncoder.matches(request.password(), found.get().getPasswordHash())) {
             //throw -> stop and report an errror (401)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid customer number or password");
         }
 
+        // Make a JWT token with this customer's number
         String token = jwtService.createToken(found.get().getCustomerNumber());
+        // Send the token back to the app 
         return new LoginResponse(token);
     }
 }

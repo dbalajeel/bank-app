@@ -25,25 +25,31 @@ enum KeychainHelper {
 
     static func saveToken(_ token: String) {
         deleteToken() // remove the old token first
-
+        //query is the filled-in form we hand to the keychain
         var query = baseQuery //var can be changed 
-        query[kSecValueData as String] = Data(token.utf8)
+        query[kSecValueData as String] = Data(token.utf8) //turns each letter into a number
         // Only readable while the phone is unlocked, and never copied to other devices.
         query[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-        SecItemAdd(query as CFDictionary, nil)
+        SecItemAdd(query as CFDictionary, nil) // nil: you dont need to give me anything back 
     }
 
-    static func readToken() -> String? {
+//getting the ticket back 
+    static func readToken() -> String? { //maybe nothing 
         var query = baseQuery
+        //give me the actual item back 
         query[kSecReturnData as String] = true
+        //just one 
         query[kSecMatchLimit as String] = kSecMatchLimitOne
 
         var result: AnyObject?
+        //find the match (with the form) and copy it 
         let status = SecItemCopyMatching(query as CFDictionary, &result)
+        //is it a success, bytes? if yes -> data, if not return nil "there is no token"
         guard status == errSecSuccess, let data = result as? Data else { return nil }
+        //everything is fine turn the bytes to letters
         return String(data: data, encoding: .utf8)
     }
-
+    // the user taps log out or got expired 
     static func deleteToken() {
         SecItemDelete(baseQuery as CFDictionary)
     }

@@ -25,23 +25,27 @@ public class AccountController {
     }
     // get accounts
     @GetMapping
-    //returns a list of cards (all accounts)
+    // GET /accounts: list the logged-in customer's accounts
+    // @AuthenticationPrincipal = take the customer number from the badge (from the token), not from the app
     public List<AccountResponse> getAccounts(@AuthenticationPrincipal Integer customerNumber) {
+         // Ask the service for this customer's accounts, sent back as a JSON list
         return accountService.getAccounts(customerNumber);
     }
-    //take this value from the URL address (one account) account from URL number from token
+
+    // GET /accounts/{accountNumber}: one account's details
     @GetMapping("/{accountNumber}")
-    public AccountResponse getAccount(@PathVariable String accountNumber,
-                                      @AuthenticationPrincipal Integer customerNumber) {
-                                        //check it is mine
+    public AccountResponse getAccount(@PathVariable String accountNumber,// account number from the URL
+                                      @AuthenticationPrincipal Integer customerNumber) { // customer number from the token
+        // check it is mine
         return accountService.getAccount(accountNumber, customerNumber);
     }
 
     //change nickname 
     @PatchMapping("/{accountNumber}/nickname")
-    public AccountResponse updateNickname(@PathVariable String accountNumber,
-                                          @Valid @RequestBody NicknameRequest request,
-                                          @AuthenticationPrincipal Integer customerNumber) {
+    public AccountResponse updateNickname(@PathVariable String accountNumber, // account number from the URL
+                                          @Valid @RequestBody NicknameRequest request, // JSON body {"nickname": "..."}, checked (max 255)
+                                          @AuthenticationPrincipal Integer customerNumber ) {  // customer number from the token
+           // Save the new nickname (only if the account is theirs) and send back the updated account                                  
         return accountService.updateNickname(accountNumber, customerNumber, request.nickname());
     }
 }

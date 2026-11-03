@@ -30,8 +30,11 @@ public class AccountService {
                 .toList();
     }
 
+    // Get one account, but only if it belongs to this customer
     public AccountResponse getAccount(String accountNumber, Integer customerNumber) {
+       // Find the account (404 "Account not found" if it's not theirs or doesn't exist)
         Account account = findOwnedAccount(accountNumber, customerNumber);
+       // Turn it into the response shape (number, balance, nickname) and send it back
         return AccountResponse.from(account);
     }
 
@@ -43,6 +46,7 @@ public class AccountService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nickname must be 255 characters or less");
         }
 
+        // Empty nickname -> null (removes it), otherwise save the cleaned text
         account.setNickname(cleaned.isEmpty() ? null : cleaned);
         //write it to the database 
         Account saved = accountRepository.save(account);

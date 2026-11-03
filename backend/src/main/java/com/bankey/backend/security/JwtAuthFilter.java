@@ -21,28 +21,37 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         this.jwtService = jwtService;
     }
 
+    // Our own version of the filter method 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
+    protected void doFilterInternal(HttpServletRequest request, // the incoming request
+                                    HttpServletResponse response, // the reply we will send
                                     FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("Authorization");
 
+         // Only continue if there is a header and it starts with "Bearer "
         if (header != null && header.startsWith("Bearer ")) {
+            // Cut off "Bearer " (7 characters) to get just the token
             String token = header.substring(7);
+
+            // Try to check the token (a fake or expired token throws an error)
             try {
                 //jwtService is the only one who has the secret key 
                 //readCustomerNumber is the method i did in the jwtservice
                 Integer customerNumber = jwtService.readCustomerNumber(token);
-                //it is a bagde that we use to let spring understand the number. 2 password 3 roles 
+                // Make a "badge" for Spring: who = customerNumber, password = null (not needed), roles = none (empty list)
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(customerNumber, null, List.of());
-                        // Tell Spring this request belongs to this customer
+                       // Pin the badge on this request, so Spring knows who it is (used by @AuthenticationPrincipal)
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (JwtException | IllegalArgumentException e) {
+            } 
+             // Fake, changed or expired token -> catch the error
+            catch (JwtException | IllegalArgumentException e) {
+                // Remove any badge, so the request stays anonymous 
                 SecurityContextHolder.clearContext();
             }
         }
-
+        // Always pass the request to the next checkpoint (with or without a badge)
         filterChain.doFilter(request, response);
     }
 }
+            

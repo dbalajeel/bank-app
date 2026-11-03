@@ -11,9 +11,10 @@ final class AccountDetailViewModel {
     var isSaving = false
     var sessionExpired = false
 
+    //init: because acccount and nickname has no starting value 
     init(account: Account) {
-        self.account = account
-        self.nicknameText = account.nickname ?? ""
+        self.account = account //my account +the account i tapped 
+        self.nicknameText = account.nickname ?? "" //if its empty use this instead 
     }
 
     // GET /accounts/{accountNumber}: get the latest details from the server.
@@ -32,7 +33,7 @@ final class AccountDetailViewModel {
     func saveNickname() async {
         errorMessage = nil
         successMessage = nil
-
+        //trim the spaces. trimming...(in:) -> remove start and end , whitespacesandnewlines -> spaces and lines 
         let trimmed = nicknameText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard trimmed.count <= 255 else {
             errorMessage = "Nickname must be 255 characters or less"

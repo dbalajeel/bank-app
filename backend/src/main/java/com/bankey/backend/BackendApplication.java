@@ -1,3 +1,4 @@
+//automated spring 
 package com.bankey.backend;
 
 import org.springframework.boot.SpringApplication;

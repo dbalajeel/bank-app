@@ -11,6 +11,7 @@ final class AccountsViewModel {
 
     func load() async {
         isLoading = true
+        //run at he end and clear any old errors
         defer { isLoading = false }
         errorMessage = nil
 
@@ -23,7 +24,7 @@ final class AccountsViewModel {
         }
     }
 
-    // Put the updated account (new nickname) into the list.
+    // Find the account with the same number and swap in the updated one (new nickname)
     func replace(_ updated: Account) {
         if let index = accounts.firstIndex(where: { $0.id == updated.id }) {
             accounts[index] = updated
